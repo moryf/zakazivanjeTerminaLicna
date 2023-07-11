@@ -39,37 +39,6 @@ public class ZakazivanjeTerminaLicnaApplication implements CommandLineRunner{
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        terminRepo.deleteAll();
-        korisnikRepo.deleteAll();
-        mupRepo.deleteAll();
-        MUP mup = new MUP();
-        mup.setAdresa("Adresa");
-        mup.setNaziv("Mup");
-        mup.setEmail("email");
-        mup.setBrojTelefona("0123456789");
 
-        Korisnik korisnik = new Korisnik();
-        korisnik.setMup(mup);
-        korisnik.setIme("ime");
-        korisnik.setPrezime("prezime");
-        korisnik.setAdmin(false);
-        korisnik.setSifra("sifra");
-        korisnik.setEmail("email");
-        korisnik.setAdresa("adresa");
-
-        Termin termin = new Termin();
-        termin.setVreme(new Date());
-
-        korisnik.getTermini().add(termin);
-        mup.getTermini().add(termin);
-
-        entityManager.persist(korisnik);
-        entityManager.persist(mup);
-
-        Termin novitermin=terminRepo.findById(termin.getId()).orElse(null);
-        System.out.println(novitermin);
-        Korisnik korisnik1=korisnikRepo.findById(korisnik.getId()).orElse(null);
-        System.out.println(korisnik1);
-        System.out.println(korisnik1.getTermini().get(0));
     }
 }

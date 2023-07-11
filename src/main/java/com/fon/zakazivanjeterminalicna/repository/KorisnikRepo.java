@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KorisnikRepo extends JpaRepository<Korisnik,Long> {
-public Optional<Korisnik> getByEmailAndSifra(String email,String sifra);
+public Optional<Korisnik> findByEmailAndSifra(String email,String sifra);
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MUPRepo extends JpaRepository<MUP,Long> {
 
-    public Optional<MUP> findByNaziv(String naziv);
+    public Optional<MUP> getByNaziv(String naziv);
     public Optional<List<MUP>> findAllByNazivContainsIgnoreCase(String nazivSub);
 
 }

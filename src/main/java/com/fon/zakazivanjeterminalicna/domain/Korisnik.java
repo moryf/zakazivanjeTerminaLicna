@@ -1,10 +1,7 @@
 package com.fon.zakazivanjeterminalicna.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Reference;
 
 import java.util.ArrayList;
@@ -28,14 +25,13 @@ public class Korisnik {
     String email;
     @Column(nullable = false)
     String sifra;
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "mupId")
-    MUP mup;
     String adresa;
     boolean admin=false;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
     @JoinColumn(name = "korisnikId")
     List<Termin> termini = new ArrayList<>();
+    @Reference(value = MUP.class)
+    Long mupId;
 
     @Override
     public String toString() {
@@ -45,7 +41,6 @@ public class Korisnik {
                 ", prezime='" + prezime + '\'' +
                 ", email='" + email + '\'' +
                 ", sifra='" + sifra + '\'' +
-                ", mup=" + mup +
                 ", adresa='" + adresa + '\'' +
                 ", admin=" + admin +
                 ", termini=" + termini +

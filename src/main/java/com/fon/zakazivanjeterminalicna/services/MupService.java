@@ -21,10 +21,28 @@ public class MupService {
     }
 
     public MUP getByNaziv(String naziv){
-        return mupRepo.findByNaziv(naziv).orElse(null);
+        return mupRepo.getByNaziv(naziv).orElse(null);
     }
 
     public List<MUP> getByNazivContains(String nazivSub){
         return mupRepo.findAllByNazivContainsIgnoreCase(nazivSub).orElse(null);
+    }
+
+    public void addMup(MUP mup) {
+        mupRepo.save(mup);
+    }
+
+    public MUP updateMup(MUP mup, Long id) {
+        MUP mup1 = mupRepo.findById(id).get();
+        mup1.setBrojTelefona(mup.getBrojTelefona());
+        mup1.setEmail(mup.getEmail());
+        mup1.setNaziv(mup.getNaziv());
+        mup1.setAdresa(mup.getAdresa());
+        mupRepo.save(mup1);
+        return mup1;
+    }
+
+    public void deleteMup(Long id) {
+        mupRepo.deleteById(id);
     }
 }

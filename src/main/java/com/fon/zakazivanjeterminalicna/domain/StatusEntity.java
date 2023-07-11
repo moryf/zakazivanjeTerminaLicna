@@ -16,6 +16,7 @@ public class StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(unique = true)
     @Enumerated(EnumType.STRING)
     Status status;
 }
