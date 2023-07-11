@@ -5,7 +5,8 @@ import com.fon.zakazivanjeterminalicna.domain.Termin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TerminRepo extends JpaRepository<Termin,Long> {
-    public List<Termin> findAllByStatus(StatusEntity status);
+    public Optional<List<Termin>> findAllByStatus(StatusEntity status);
 }

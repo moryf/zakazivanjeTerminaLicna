@@ -20,15 +20,19 @@ public class Korisnik {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(nullable = false)
     String ime;
+    @Column(nullable = false)
     String prezime;
+    @Column(unique = true,nullable = false)
     String email;
+    @Column(nullable = false)
     String sifra;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "mupId")
     MUP mup;
     String adresa;
-    boolean admin;
+    boolean admin=false;
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     @JoinColumn(name = "korisnikId")
     List<Termin> termini = new ArrayList<>();
