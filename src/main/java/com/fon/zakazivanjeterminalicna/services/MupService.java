@@ -1,4 +1,4 @@
-package com.fon.zakazivanjeterminalicna;
+package com.fon.zakazivanjeterminalicna.services;
 
 import com.fon.zakazivanjeterminalicna.domain.MUP;
 import com.fon.zakazivanjeterminalicna.repository.MUPRepo;
