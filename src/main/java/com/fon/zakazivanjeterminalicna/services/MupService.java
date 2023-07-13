@@ -35,7 +35,6 @@ public class MupService {
     public MUP updateMup(MUP mup, Long id) {
         MUP mup1 = mupRepo.findById(id).get();
         mup1.setBrojTelefona(mup.getBrojTelefona());
-        mup1.setEmail(mup.getEmail());
         mup1.setNaziv(mup.getNaziv());
         mup1.setAdresa(mup.getAdresa());
         mupRepo.save(mup1);

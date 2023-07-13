@@ -1,13 +1,7 @@
 package com.fon.zakazivanjeterminalicna.services;
 
-import com.fon.zakazivanjeterminalicna.domain.Korisnik;
-import com.fon.zakazivanjeterminalicna.domain.MUP;
-import com.fon.zakazivanjeterminalicna.domain.Status;
-import com.fon.zakazivanjeterminalicna.domain.Termin;
-import com.fon.zakazivanjeterminalicna.repository.KorisnikRepo;
-import com.fon.zakazivanjeterminalicna.repository.MUPRepo;
-import com.fon.zakazivanjeterminalicna.repository.StatusRepo;
-import com.fon.zakazivanjeterminalicna.repository.TerminRepo;
+import com.fon.zakazivanjeterminalicna.domain.*;
+import com.fon.zakazivanjeterminalicna.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -25,6 +19,8 @@ public class KorisnikService {
     TerminRepo terminRepo;
     @Autowired
     StatusRepo statusRepo;
+    @Autowired
+    TipDokumentaRepo tipDokumentaRepo;
     @PersistenceContext
     EntityManager entityManager;
 
@@ -40,14 +36,16 @@ public class KorisnikService {
     public Korisnik login(String email,String sifra){
         return korisnikRepo.findByEmailAndSifra(email,sifra).orElse(null);
     }
-
-    public void register(Korisnik korisnik) {
+@Transactional
+    public Korisnik register(Korisnik korisnik) {
         korisnikRepo.save(korisnik);
+        return korisnikRepo.findByEmailAndSifra(korisnik.getEmail(), korisnik.getSifra()).get();
     }
 
 
 @Transactional
-    public void zahtevZaTermin(Long idKorisnika, Long idMupa, Termin termin) {
+    public void zahtevZaTermin(Long idKorisnika, Long idMupa, Termin termin, TipDokumenta tip) {
+        termin.setTipDokumenta(tipDokumentaRepo.findByTipDokumenta(tip));
         termin.setStatus(statusRepo.findByStatus(Status.Zahtev));
         Korisnik korisnik = korisnikRepo.findById(idKorisnika).get();
         entityManager.persist(korisnik);

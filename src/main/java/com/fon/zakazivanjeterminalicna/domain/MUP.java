@@ -22,12 +22,9 @@ public class MUP {
     String naziv;
     String adresa;
     String brojTelefona;
-    String email;
     @OneToMany(cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
     @JoinColumn(name ="mupId")
     List<Termin> termini = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
-    List<Korisnik> admini = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -36,7 +33,6 @@ public class MUP {
                 ", naziv='" + naziv + '\'' +
                 ", adresa='" + adresa + '\'' +
                 ", brojTelefona='" + brojTelefona + '\'' +
-                ", email='" + email + '\'' +
                 '}';
     }
 }

@@ -28,6 +28,8 @@ public class Termin {
     @ManyToOne
     @JoinColumn(name = "tipDokumentaId")
     private TipDokumentaEntity tipDokumenta;
+    @Reference(value = MUP.class)
+    Long mupId;
 
     @Override
     public String toString() {
