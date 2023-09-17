@@ -3,7 +3,10 @@ package com.fon.zakazivanjeterminalicna.controllers;
 import com.fon.zakazivanjeterminalicna.domain.*;
 import com.fon.zakazivanjeterminalicna.services.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,19 +19,34 @@ import java.util.Date;
 public class KorisnikController {
     @Autowired
     KorisnikService korisnikService;
+
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    KorisnikController(KorisnikService korisnikService){
+        this.korisnikService = korisnikService;
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    }
+
     @PostMapping("/login")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
         System.out.println(loginRequest);
-        Korisnik korisnik = korisnikService.login(loginRequest.getEmail(), loginRequest.getSifra());
-        if (korisnik!=null) return ResponseEntity.ok(korisnik);
+        String email = loginRequest.getEmail();
+        String sifra = loginRequest.getSifra();
+        Korisnik korisnik = korisnikService.login(email);
+        if (korisnik == null) return ResponseEntity.badRequest().body("Pogresni parametri za login");
+        if (bCryptPasswordEncoder.matches(sifra, korisnik.getSifra())) return ResponseEntity.ok(korisnik);
         else return ResponseEntity.badRequest().body("Pogresni parametri za login");
     }
     @PostMapping("/register")
     @CrossOrigin
     public ResponseEntity<?> register(@RequestBody Korisnik korisnik){
         System.out.println(korisnik);
+        korisnik.setSifra(bCryptPasswordEncoder.encode(korisnik.getSifra()));
+        System.out.println(korisnik.getSifra());
         Korisnik k =  korisnikService.register(korisnik);
+        if (k == null) return ResponseEntity.badRequest().body("Korisnik vec postoji");
         return ResponseEntity.ok(k);
     }
 
@@ -43,4 +61,11 @@ public class KorisnikController {
         korisnikService.zahtevZaTermin(terminDTO.getKorisnikId(), terminDTO.getMupId(), termin,terminDTO.getTipDokumenta());
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/all")
+    @CrossOrigin
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(korisnikService.getAllKorisnici());
+    }
+
 }

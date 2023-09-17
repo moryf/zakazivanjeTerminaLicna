@@ -8,4 +8,7 @@ import java.util.Optional;
 
 public interface KorisnikRepo extends JpaRepository<Korisnik,Long> {
 public Optional<Korisnik> findByEmailAndSifra(String email,String sifra);
+
+    public Optional<Korisnik> findByEmail(String email);
+
 }

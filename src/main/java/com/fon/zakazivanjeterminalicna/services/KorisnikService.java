@@ -33,13 +33,17 @@ public class KorisnikService {
         return korisnikRepo.findById(id).orElse(null);
     }
 
-    public Korisnik login(String email,String sifra){
-        return korisnikRepo.findByEmailAndSifra(email,sifra).orElse(null);
+    public Korisnik login(String email){
+        return korisnikRepo.findByEmail(email).orElse(null);
     }
 @Transactional
     public Korisnik register(Korisnik korisnik) {
-        korisnikRepo.save(korisnik);
-        return korisnikRepo.findByEmailAndSifra(korisnik.getEmail(), korisnik.getSifra()).get();
+        Korisnik k = korisnikRepo.findByEmail(korisnik.getEmail()).orElse(null);
+        if(k==null){
+            korisnikRepo.save(korisnik);
+            return korisnik;
+        }
+        return null;
     }
 
 
@@ -54,5 +58,9 @@ public class KorisnikService {
         korisnik.getTermini().add(termin);
         mup.getTermini().add(termin);
         entityManager.persist(termin);
+    }
+
+    public List<Korisnik> getAllKorisnici(){
+        return korisnikRepo.findAll();
     }
 }
