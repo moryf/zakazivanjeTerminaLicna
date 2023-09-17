@@ -39,6 +39,15 @@ public class KorisnikController {
         if (bCryptPasswordEncoder.matches(sifra, korisnik.getSifra())) return ResponseEntity.ok(korisnik);
         else return ResponseEntity.badRequest().body("Pogresni parametri za login");
     }
+
+    @GetMapping("/{id}/termini")
+    @CrossOrigin
+    public ResponseEntity<?> termini(@PathVariable Long id){
+        System.out.println(id);
+        System.out.println(korisnikService.getById(id).getTermini());
+        return ResponseEntity.ok(korisnikService.getById(id).getTermini());
+    }
+
     @PostMapping("/register")
     @CrossOrigin
     public ResponseEntity<?> register(@RequestBody Korisnik korisnik){

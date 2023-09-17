@@ -42,5 +42,11 @@ public class TerminController {
         return ResponseEntity.ok(optionalLista);
     }
 
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        terminService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 
 }

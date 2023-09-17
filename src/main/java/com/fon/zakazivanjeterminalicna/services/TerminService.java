@@ -43,4 +43,8 @@ public class TerminService {
         termin.setStatus(statusRepo.findByStatus(Status.Odbijen));
         terminRepo.save(termin);
     }
+
+    public void delete(Long id) {
+        terminRepo.deleteById(id);
+    }
 }
